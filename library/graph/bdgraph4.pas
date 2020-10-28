@@ -199,8 +199,7 @@ var
 begin
  for counter := 1 to length(LineToSend) do (* send each character 1 at a time *)
   begin
-    bios(3,ord(LineToSend[counter]));
-  { bdos(2,ord(LineToSend[counter])); }
+    bdos(2,ord(LineToSend[counter]));
   { port[1] := SerialTXPort; (* select the OPCode *)
     port[0] := ord(LineToSend[counter]); (* data for op code *) }
   end;
@@ -511,4 +510,4 @@ begin
  y := r*8;
  bprint2(x,y,instring);
 end;
-  
+  
