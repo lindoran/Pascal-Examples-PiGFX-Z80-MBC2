@@ -141,7 +141,7 @@ end;
 
 function inkey : integer;
 begin
- if bios(1) = 255 then then inkey := bios(2) else inkey := 0;
+ if bios(1) = 255 then inkey := bios(2) else inkey := 0;
 end;
 
 {check for esc character, command from the terminal and read the
@@ -500,4 +500,4 @@ begin
  y := r*8;
  bprint2(x,y,instring);
 end;
-   
+   
