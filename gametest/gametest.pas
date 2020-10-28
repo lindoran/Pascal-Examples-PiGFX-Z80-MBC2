@@ -1,7 +1,7 @@
 program gametest;
 {$I joystick.pas} {global variables (btnval:byte)}
 {$I Sound.pas}
-{$I graph3.pas} {see graphics.pas for constants}
+{$I graph4.pas} {see graphics.pas for constants}
 
 const
 dbdelay = 1;
@@ -196,7 +196,7 @@ writeln(esc,4,';',18,'H','Game and Sound Test for Z80-MBC2 PiGFX-Term');
 writeln(esc,5,';',29,'H','By D. Collins (C)2020');
 writeln(esc,10,';',32,'H','<press any key>');
 repeat
-until (keypressed);
+until (inkey > 0);
 menuload;
 repeat
  GFXSetColorFG(15,1);

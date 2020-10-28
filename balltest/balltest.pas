@@ -1,9 +1,8 @@
 program balltest;
 {This is a fun little demo that depicts a "ball" sprite bouncing between two
- walls.  we detect collison by checking C_RAWIO bdos fuction 6, with E=OFFh,
- represented as bdos(6,255) function in turbo pascal.  we use a simple if
- statement to detect chr 27 (the escape code), and then a for loop 10 steps
- long to read in each character of the controll code from the input buffer
+ walls.  we detect a collision useing the collision statement in the graph4 
+ library which detects chr 27 (the escape code), and then a for loop 10 steps
+ long to read in each character of the control code from the input buffer
  raw data. we can also pull flow control from the user useing the inkey func
  tion from the graph2 include file. this functions exactly as the mbasic com
  and, and outputs a integer value which is the ordinal dec value of the charac
@@ -21,7 +20,7 @@ program balltest;
  use at your own risk. }
 
 {$I sound.pas}
-{$I graph2.pas}
+{$I graph4.pas}
 
 
 var
@@ -83,7 +82,7 @@ repeat        {main loop, repeats untill 5 collisons then ends}
  statement := esc + '#0;1;' + NumStr(loop) + ';40s'; (* draw ball*)
  piout(statement);
  delay(1);    (* this delay was needed to 'debounce' the keybuffer *)
- if Collision = true then {calls C_RAWIO BDOS function to see if the esc character is present in keybuffer}
+ if Collision = true then {calls inkey function to see if the esc character is present in keybuffer}
   begin
    toggle;
    tone(30,10);
@@ -133,6 +132,6 @@ until(lp2 = 5);
 write(esc,'#0x'); {clear the ball sprite from the screen}
 write(esc,'9;9H<press any key to end>');
 repeat
-until(keypressed);
+until(inkey > 0);
 SetModeText;
 end.
