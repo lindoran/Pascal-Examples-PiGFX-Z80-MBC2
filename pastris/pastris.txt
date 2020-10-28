@@ -36,4 +36,11 @@
  PiGFX but it would be very usefull. additionally blanking and redrawing the
  playfield is fast enough that hardware sprites were really not needed, and as
  I had used many of the bitmaps for fonts It didn't seem like it was worth the
- extra work.}
+ extra work.
+
+ to compile under a different platform, say the RC2014, you would need a PiGFX
+ interface running the newest version of the firmware and use the bgraph4.pas 
+ library.  also do not enable the joystick / sound as there is no way to currently
+ remove them from the source depending on your specific configureation it may cause
+ issues.}
+
