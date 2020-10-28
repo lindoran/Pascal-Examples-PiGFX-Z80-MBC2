@@ -1,0 +1,116 @@
+{graph4 is the fourth installment of my graphics includeable file
+ I have updated it to use the new port command technique described
+ in my video on my youtube channel https://youtu.be/LcsFRCqoEV8, if
+ this link dosn't work please search youtube for z80dad. This new
+ optimized techniqe uses the z80-mbc2's OPCode for the TX pin to
+ directly write output; bypassing CP/M. I have also created another
+ version that uses BIOS only calls which is more compatible with other
+ Z80 computers useing the PiGFX interface.  The direct serial accsess 
+ version is slightly faster as it avoids CP/M all together but is only
+ compatible with the Z80-MBC2 serial port. it's possible to create a  
+ version that works with a SIO but would require the piout procedure 
+ to be re-written. Additionally this fixes bugs which are caused by the 
+ cursor being moved over a drawn part of the screen (an issue with CP/M 
+ or Turbo Pascal, its actually hardto know witch.) to keep it from 
+ scrolling. I learned about the port command by refrencing the porter
+ program at Nigel Kendricks GitHub https://github.com/linker3000/z80porter
+ 
+ I have eliminated all BDOS calls for performance and compatibility reasons
+ instead I have used BIOS calls where ever possible; this should be more
+ compatible and defineately faster!
+
+ Maximite functions: Added is a small bitmaped font, which uses loadable
+ bitmaps in the PiGFX interface.  you can configure the start of the fonts
+ in the index with the constant.  it is set at 32 so that standard decimal
+ values will line up.  I used the bit map font from dhepper git hub at:
+ http://github.com/dhepper/font8x8/blob/master/font8x8_basic.h. I stripped
+ all of the C heder information and left the raw data for only the viewable
+ characters to save space.  these fonts can be loaded similarly to the way
+ that the maximite loads fonts. you will need to set the pallet to custom
+ maximite mode. there is also a small numbers only (supporting hexidecimal
+ values ) font which is bitmaped as well.  this can be usefull since there 
+ isn't any way to change the background of a font without reconfigureing the
+ pallet (which will change the forground and background of every character 
+ on the screen)
+
+ you could also probably use the bitmap font in other color pallets as well,
+ it was just added for maximite ports; so that I could use 100% of the screen
+ for font placement.  
+ 
+ FILE Version Descriptions : 
+ graph4.pas -> The main graphics library compatible with the Z80MBC2 serial port 
+ gr4small.pas -> reduced size version of the same, see source for exclustions 
+ gr4tiny.pas -> very small few options again see source for exclusions 
+ bdgraph4.pas -> a very slow version of graph4 that uses BDOS, simply for reffrence
+ bgraph4.pas -> call only, slightly slower than graph4 due to useing minimal CP/M 
+                 assistance.
+ bg4small.pas -> reduced size bios version
+ bg4tiny.pas -> bare bones bios version
+ 8font.txt -> put in same directory or disk as program useing bitmap font this is 
+              the source file for the font bitmaps
+ 8fontnum.txt -> this is the source file for the numbers.
+}
+
+{ this is highly inefficent -- it is commented out because it is large
+  and does not work well, if you would like to try it out uncomment.
+
+ a line statement that is similar to the maximite line statements
+ x & y 1/2 are explanitory, c is color. b is box, f is filled  }
+
+{
+procedure maxline(x1,y1,x2,y2,c,b,f: integer);
+var
+  width,height,Ax,Ay : integer;
+  Yneg,Xneg : boolean;
+begin
+  case b of
+   1 : begin
+         if y2 > y1 then
+          begin
+           height := y2 - y1;
+           Yneg := false;
+          end
+          else
+           begin
+            height := y1 - y2;
+            Yneg := true;
+           end;
+         if x2 > x1 then
+          begin
+           width := x2 - x1;
+           Xneg := false;
+          end
+          else
+           begin
+            width := x1 - x2;
+            xneg := true;
+           end;
+         if Xneg = false then if Xneg = false then
+          begin
+           Ax := x1;
+           Ay := y1;
+          end;
+         if Xneg = true then if Yneg = true then
+          begin
+           Ax := x2;
+           Ay := y2;
+          end;
+         if Xneg = true then if Yneg = false then
+          begin
+           Ax := x2;
+           Ay := y2 - height;
+          end;
+         if Xneg = false then if Yneg = true then
+          begin
+           Ax := x1;
+           Ay := y1 - height;
+          end;
+         GFXSetColorFG(c,0);
+         GFXDrawRectangle(Ax,Ay,width,height,f);
+       end;
+   0 : begin
+         GFXSetColorFG(c,0);
+         GFXDrawLine(x1,y1,x2,y2);
+       end;
+  end;
+end; }
