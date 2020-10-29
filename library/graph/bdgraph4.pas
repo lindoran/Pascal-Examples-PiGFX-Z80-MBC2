@@ -200,8 +200,6 @@ begin
  for counter := 1 to length(LineToSend) do (* send each character 1 at a time *)
   begin
     bdos(2,ord(LineToSend[counter]));
-  { port[1] := SerialTXPort; (* select the OPCode *)
-    port[0] := ord(LineToSend[counter]); (* data for op code *) }
   end;
 end;
 

@@ -42,7 +42,7 @@
  gr4small.pas -> reduced size version of the same, see source for exclustions 
  gr4tiny.pas -> very small few options again see source for exclusions 
  bdgraph4.pas -> a very slow version of graph4 that uses BDOS, simply for reffrence
- bgraph4.pas -> call only, slightly slower than graph4 due to useing minimal CP/M 
+ bgraph4.pas -> BIOS call only, slightly slower than graph4 due to useing minimal CP/M 
                  assistance.
  bg4small.pas -> reduced size bios version
  bg4tiny.pas -> bare bones bios version
