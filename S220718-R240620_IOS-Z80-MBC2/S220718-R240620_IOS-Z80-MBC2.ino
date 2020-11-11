@@ -808,7 +808,7 @@ void loop()
       // Opcode 0x85  ERRDISK         1
       // Opcode 0x86  READSECT        512
       // Opcode 0x87  SDMOUNT         1
-      // Opcode 0x88  QDTIMER         2
+      // Opcode 0x88  QDTIMER         11
       // Opcode 0xFF  No operation    1
       //
       // See the following lines for the Opcodes details.
