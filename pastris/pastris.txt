@@ -10,14 +10,20 @@
  allow for a more fun experience!
 
  a bitmap font was used (loaded as bitmaps only to the interface memory directly
- off the disk) to properly position text on the screen useing generally the sam
- locations as the maximite build. since the computer lacks a timer, in that we
- can get a milisecond refrence timer that is always running which can be reset,
- I had to resort to a software conunter.  the timing all being under a second
- in the original program meant that I could not use the real time clock which
- only has seconds resolution the since the actual loops in the program are used
- they had to be tweekd to make it work close to the orignal, also asume a 8mhz
- clock speed
+ off the disk) to properly position text on the screen useing generally the same
+ locations as the maximite build. 
+ since the computer lacks a timer, in that we can get a milisecond refrence timer 
+ that is always running which can be reset, I had to resort to a software conunter.  
+ the timing all being under a second in the original program meant that I could not 
+ use the real time clock which only has seconds resolution the since the actual 
+ loops in the program are used they had to be tweekd to make it work close to the 
+ orignal, also asume a 8mhz clock speed
+
+ (** UPDATE **) the MBC2TRIS.PAS version uses a timer derived from the ATMEGA32's 
+ timer by way of a hacked millis(); opcode.  it is under read codes at 0x88. please 
+ see the new time.pas library for details. this version requires a Z80-MBC2 running
+ that hacked sketch. it is used both for timeing piece drops, as well as debounceing 
+ the joystick. 
 
  the pieces were drawn useing linedraw primitives on the maximite version.  I
  wish I had re-coded the source to use the line commands built into pi-gfx but

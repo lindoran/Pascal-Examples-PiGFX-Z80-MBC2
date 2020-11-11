@@ -4,34 +4,19 @@
  due to TP3 not letting you use array type for functions, this does allow the
  timestamps to be stored as array's and used more simply; as you can not use
  the standard port comand as such.  to update the global CurrentTime, simply
- call the RTCGetTime. As is use at own risk, free to use and distribute }
+ call the RTCGetTime. As is use at own risk, free to use and distribute 
+ this is the old version of the file rename to time.pas with PIP }
 
 Const
  RTCOpcode = 132;
  minseconds = 60;
- QDTimerOpcode = 136; { this is the new op code at 0x88 for on system ms timer}
 
 Type
  Timestamp = array[0..6] of byte;{seconds,minutes,hours,day,month,year,temp}
- QDstring = string[11];
 
 var
  CounterStart : Timestamp;
  CurrentTime : Timestamp;
- QDCurrent : QDString;
-
-{get ms from a modded version of the Z80MBC2}
-function qdtimer : real;
-var
- a,b:integer;
- out:real;
-begin
- QDCurrent := '';
- port[1] := QDTimerOpcode;
- for a := 0 to 11 do QDCurrent := QDCurrent + chr(port[0]);
- val(QDCurrent,out,b);
- qdtimer := out;
-end;
 
 {this gets the time from the Z80MBC2 RTC module}
 Procedure RTCGetTime;
@@ -74,4 +59,4 @@ begin
  {calculate elapsed seconds}
  seconds := (timer[1] * minseconds) + timer[0];
  RTCCounter := seconds - startsec;
-end;
+end;
