@@ -1522,12 +1522,16 @@ void loop()
             //          I/O DATA 0: D7 D6 D5 D4 D3 D2 D1 D0
             //          ------------------------------------------------------------------------
             //                      D7 D6 D5 D4 D3 D2 D1 D0
-            //                      ...  (AS MANY ITERATIONS AS REQUIRED)
+            //                      ...  (AS MANY ITERATIONS AS REQUIRED UP TO 11)
             //                      D7 D6 D5 D4 D3 D2 D1 D0    ASCII CHARACTER.
             //
             // NOTE 1: I am aware i can do this efficently with byte shifter.  due to limitations in some higher level
             //         languages,re-shifing to assemble the number is more difficult than simply converting a string 
             //         into a long or a real number.
+            // NOTE 2: This will send a 0 if read after the buffer is cleared (before 11) the remaining bytes sent will 
+            //         be 0, if you are reading in 1 character at a time you will know the buffer is clear as the charac
+            //         ter read will be a 0 and not 48 for a zero. in turbo pascal you can safely read the register 11 
+            //         times, and it will disregard the null characters when appended to the string.
             
             
             if (ioByteCnt == 0) {
