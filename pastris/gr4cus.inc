@@ -4,11 +4,10 @@ this code is provided as is, free to use without warentee
 agaist damage or loss.  use at your own risk.  These
 procedures make drawing to the screen much simpler with the
 PiGFX terminal https://github.com/fbergama/pigfx.  Please
-check the extensive documentation for questions useing.
-please view graph4.txt for comments they were getting quite
-large}
+check the extensive documentation for questions useing. look at
+graph4.txt to see comments they were getting quite large }
 
-{GRAPH V4.75}
+{GRAPH2 V2.75 Small custom graph4 for mbc2tris}
 {$V-}
 
 Const
@@ -140,40 +139,12 @@ end;
  calling this function }
 
 function inkey : integer;
-var
+var 
  iobyte : byte;
 begin
- {if bios(1) = 255 then inkey := bios(2) else inkey := 0;}
-  iobyte := port[1]
-  if iobyte := 255 then inkey := 0 else inkey := iobyte;
-end;
-
-{check for esc character, command from the terminal and read the
- data in to global variables ColDataPt1, ColDataPt2, and ColRawStr.
- The first two are intiger variables, the third is the Raw string
- output. The collision result is output to the function as a boolean
- statement.  See PiGFX documentation on how the Control code is encoded}
-
-function Collision : boolean;
-var
- count,semi,hash,c,err :integer;
- stp : string[3];
-begin
-if inkey = 27 then
-  begin
-   Collision := true;
-   ColRawStr := '';
-   for count := 1 to 10 do {read 10 chr. from keybuffer, the collision data}
-    begin
-     stp := chr(inkey);
-     ColRawStr := ColRawStr + stp;
-    end;
-   semi := pos(';',ColRawStr); (*find ';' in string*)
-   hash := pos('#',ColRawStr); (*find '#' in string*)
-   c := pos('c',ColRawStr); (*find 'c' in string*)
-   val(copy(ColRawStr,hash+1,semi-(hash+1)),ColDataPt1,err);
-   val(copy(ColRawStr,semi+1,c-(semi+1)),ColDataPt2,err);
-  end
+ {if bios(1) = 255 then inkey := bios(2) else inkey :=0;}
+ iobyte := port[1];
+ if iobyte = 255 then inkey := 0 else inkey := iobyte;
 end;
 
 {A simple function to convert a 3 digit number to a string in line}
@@ -222,20 +193,6 @@ begin
   SetPalette(0);
 end;
 
-{draws a line from x,y 0 to x,y 1}
-procedure GFXDrawLine (x0,y0,x1,y1: integer);
-begin
-  statement := esc + '#' + NumStr(x0) + ';' + NumStr(y0) + ';' + NumStr(x1) + ';' + NumStr(y1) + 'l';
-  piout(statement);
-end;
-
-{draws a line to and from x,y to simulate a pixel draw}
-procedure GFXDrawPxl (x,y: integer);
-begin
- statement := esc + '#' + NumStr(x) + ';' + NumStr(y) + ';' + NumStr(x) + ';' + NumStr(y) + 'l';
- piout(statement);
-end;
-
 {draws a rectangle starting at x,y 0 of w/h}
 {fill bit '1' to fill '0' to not fill}
 procedure GFXDrawRectangle (x,y,w,h,f :integer);
@@ -253,30 +210,6 @@ begin
  end;
 end;
 
-{draws a circle with center point at x,y and radius of r}
-{fill bit '1' to fill '0' to not fill}
-procedure GFXDrawCircle(x,y,r,f: integer);
-begin
- case f of
-  0 : begin
-       statement := esc + '#' + NumStr(x) + ';' + NumStr(y) + ';' + NumStr(r) + 'C';
-       piout(statement);
-      end;
-  1 : begin
-       statement := esc + '#' + NumStr(x) + ';' + NumStr(y) + ';' + NumStr(r) + 'c';
-       piout(statement);
-      end;
- end;
-end;
-
-{draws a triangle, from x0,y0 to x1,y1, to x2,y2}
-{no filling is implemented at this time}
-procedure GFXDrawTriangle(x0,y0,x1,y1,x2,y2: integer);
-begin
- statement := esc + '#' + NumStr(x0) + ';' + NumStr(y0) + ';' + NumStr(x1) + ';' + NumStr(y1) + ';' + NumStr(x2);
- statement := statement + ';' + NumStr(y2) + 'T';
- piout(statement);
-end;
 
 {set forgroud color see:
  https://en.wikipedia.org/wiki/file:Xterm_256color_chart.svg}
@@ -302,103 +235,6 @@ begin
        piout(statement);
       end;
  end;
-end;
-
-{load a custom numbers only font}
-procedure loadnumfont;
-var
- FilVar : text;
- line : String[16];
- bytestr : string[2];
-
- outstr : string[8];
- bit : char;
- I,X,Z,Y: integer;
- FileName: string[14];
-begin
-   setconvtable;
-   Filename := '8fontnum.txt';
-   Assign(FilVar,FileName);
-   Reset(FilVar);
-   Y := startnumoffset; {what position to start writeing the 8x8 bit maps}
-   X := 1; {hex byte location to begining of string}
-   while not Eof(FilVar) do {while its not the end}
-   begin
-     statement := esc + '#' + NumStr(Y) + ';8;8;16a';
-     piout(statement); {start the bitmap code sending to the terminal.}
-     Readln(FilVar,line);
-      for I := 1 to 8 do  {read each line in the character }
-      begin
-        bytestr := copy(line,X,2); {read 2 binary words of 1 line of the charater}
-        outstr := hextobin(bytestr); {output the binary 8 bit byte of the character}
-        for Z := 8 downto 1 do  {flip the string, front to back 1 bit at a time}
-        begin
-         bit := copy(outstr,Z,1);
-         if bit = '0' then
-          begin
-           statement := 'B;';  {funny story, I had these as 11 and 10 and could}
-           piout(statement);   {Not figure out what was wrong!! halarious}
-          end
-          else
-           begin
-            statement := 'A;';
-            piout(statement);
-           end;
-        end;
-        X := X + 2;
-      end; {end of the character}
-      X := 1; {reset hex byte location for next character}
-      Y := Y+1; {incriment character number}
-   end; {thats the end of the file!}
-   close(filvar);
-end;
-
-{load a custom font}
-procedure loadfont;
-var
- FilVar : text;
- line : String[16];
- bytestr : string[2];
-
- outstr : string[8];
- bit : char;
- I,X,Z,Y: integer;
- FileName: string[14];
-begin
-   Filename := '8font.txt';;
-   Assign(FilVar,FileName);
-   Reset(FilVar);
-   Y := startoffset; {what position to start writeing the 8x8 bit maps}
-   X := 1; {hex byte location to begining of string}
-   while not Eof(FilVar) do {while its not the end}
-   begin
-     statement := esc + '#' + NumStr(Y) + ';8;8;16a';
-     piout(statement); {start the bitmap code sending to the terminal.}
-     Readln(FilVar,line);
-      for I := 1 to 8 do  {read each line in the character }
-      begin
-        bytestr := copy(line,X,2); {read 2 binary words of 1 line of the charater}
-        outstr := hextobin(bytestr); {output the binary 8 bit byte of the character}
-        for Z := 8 downto 1 do  {flip the string, front to back 1 bit at a time}
-        begin
-         bit := copy(outstr,Z,1);
-         if bit = '0' then
-          begin
-           statement := '9;';
-           piout(statement);
-          end
-          else
-           begin
-            statement := '8;';
-            piout(statement);
-           end;
-        end;
-        X := X + 2;
-      end; {end of the character}
-      X := 1; {reset hex byte location for next character}
-      Y := Y+1; {incriment character number}
-   end; {thats the end of the file!}
-   close(filvar);
 end;
 
 {load the maximite pallet}
@@ -504,4 +340,3 @@ begin
  y := r*8;
  bprint2(x,y,instring);
 end;
-   

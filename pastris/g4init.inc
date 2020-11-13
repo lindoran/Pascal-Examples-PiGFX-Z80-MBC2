@@ -8,7 +8,7 @@ check the extensive documentation for questions useing.
 please view graph4.txt for comments they were getting quite
 large}
 
-{GRAPH V4.75}
+{GRAPH V4. -- custom font loader libraryc}
 {$V-}
 
 Const
@@ -135,47 +135,6 @@ begin
  end;
 end;
 
-{ functions exactly as inkey in mbasic, this outputs the ordinal value of
- the key that was pressed, a debounce delay of 1ms is recommended prior to
- calling this function }
-
-function inkey : integer;
-var
- iobyte : byte;
-begin
- {if bios(1) = 255 then inkey := bios(2) else inkey := 0;}
-  iobyte := port[1]
-  if iobyte := 255 then inkey := 0 else inkey := iobyte;
-end;
-
-{check for esc character, command from the terminal and read the
- data in to global variables ColDataPt1, ColDataPt2, and ColRawStr.
- The first two are intiger variables, the third is the Raw string
- output. The collision result is output to the function as a boolean
- statement.  See PiGFX documentation on how the Control code is encoded}
-
-function Collision : boolean;
-var
- count,semi,hash,c,err :integer;
- stp : string[3];
-begin
-if inkey = 27 then
-  begin
-   Collision := true;
-   ColRawStr := '';
-   for count := 1 to 10 do {read 10 chr. from keybuffer, the collision data}
-    begin
-     stp := chr(inkey);
-     ColRawStr := ColRawStr + stp;
-    end;
-   semi := pos(';',ColRawStr); (*find ';' in string*)
-   hash := pos('#',ColRawStr); (*find '#' in string*)
-   c := pos('c',ColRawStr); (*find 'c' in string*)
-   val(copy(ColRawStr,hash+1,semi-(hash+1)),ColDataPt1,err);
-   val(copy(ColRawStr,semi+1,c-(semi+1)),ColDataPt2,err);
-  end
-end;
-
 {A simple function to convert a 3 digit number to a string in line}
 function NumStr(Var I:Integer) : NumString;
 Var S : NumString;
@@ -222,66 +181,9 @@ begin
   SetPalette(0);
 end;
 
-{draws a line from x,y 0 to x,y 1}
-procedure GFXDrawLine (x0,y0,x1,y1: integer);
-begin
-  statement := esc + '#' + NumStr(x0) + ';' + NumStr(y0) + ';' + NumStr(x1) + ';' + NumStr(y1) + 'l';
-  piout(statement);
-end;
-
-{draws a line to and from x,y to simulate a pixel draw}
-procedure GFXDrawPxl (x,y: integer);
-begin
- statement := esc + '#' + NumStr(x) + ';' + NumStr(y) + ';' + NumStr(x) + ';' + NumStr(y) + 'l';
- piout(statement);
-end;
-
-{draws a rectangle starting at x,y 0 of w/h}
-{fill bit '1' to fill '0' to not fill}
-procedure GFXDrawRectangle (x,y,w,h,f :integer);
-begin
- case f of
-
-  0 : begin
-       statement := esc + '#' + NumStr(x) + ';' + NumStr(y) + ';' + NumStr(w) + ';' + NumStr(h) + 'R';
-       piout(statement);
-      end;
-  1 : begin
-       statement := esc + '#' + NumStr(x) + ';' + NumStr(y) + ';' + NumStr(w) + ';' + NumStr(h) + 'r';
-       piout(statement);
-      end;
- end;
-end;
-
-{draws a circle with center point at x,y and radius of r}
-{fill bit '1' to fill '0' to not fill}
-procedure GFXDrawCircle(x,y,r,f: integer);
-begin
- case f of
-  0 : begin
-       statement := esc + '#' + NumStr(x) + ';' + NumStr(y) + ';' + NumStr(r) + 'C';
-       piout(statement);
-      end;
-  1 : begin
-       statement := esc + '#' + NumStr(x) + ';' + NumStr(y) + ';' + NumStr(r) + 'c';
-       piout(statement);
-      end;
- end;
-end;
-
-{draws a triangle, from x0,y0 to x1,y1, to x2,y2}
-{no filling is implemented at this time}
-procedure GFXDrawTriangle(x0,y0,x1,y1,x2,y2: integer);
-begin
- statement := esc + '#' + NumStr(x0) + ';' + NumStr(y0) + ';' + NumStr(x1) + ';' + NumStr(y1) + ';' + NumStr(x2);
- statement := statement + ';' + NumStr(y2) + 'T';
- piout(statement);
-end;
-
 {set forgroud color see:
  https://en.wikipedia.org/wiki/file:Xterm_256color_chart.svg}
-{home cursor bit 1 = home 0 = no - this functionality is depreciated but left
- in for compatablility}
+
 procedure GFXSetColorFG(color,cs: integer);
 begin
  statement := esc + '38;5;' + NumStr(color) + 'm';
@@ -455,53 +357,3 @@ begin
    setpalette(2);
    GFXSetColorFG(7,0); {sets defalult fg to white, as it is different in the Maximite}
 end;
-
-
-{ a print statement that is similar to the maximite bitmap mode print
-  currently no way to ajust color }
-procedure bprint(x,y :integer ; ipstring :WorkString);
-var
- i,val : integer;
-begin
- for i := 1 to length(ipstring) do
-  begin
-    val := ord(ipstring[i]);
-    statement := esc + '#' +NumStr(val)+ ';' + NumStr(x) + ';' + NumStr(y) + 'd';
-    piout(statement);
-    x := x + 8;
-  end;
-end;
-
-{prints with the secondary character set}
-procedure bprint2(x,y :integer; ipstring :WorkString);
-var
- i,b,val :integer;
-begin
- for i := 1 to length(ipstring) do
-  begin
-   val := convtbl[ord(ipstring[i])];
-   statement := esc + '#' +NumStr(val)+ ';' + NumStr(x) + ';' +  NumStr(y) + 'd';
-   piout(statement);
-   x := x+8;
-  end;
-end;
-
-{prints useing col and row configureation}
-procedure mprint(c,r :integer ; instring:WorkString);
-var
- x,y :integer;
-begin
- x := c*8;
- y := r*8;
- bprint(x,y,instring);
-end;
-
-procedure mprint2(c,r :integer; instring:WorkString);
-var
- x,y :integer;
-begin
- x := c*8;
- y := r*8;
- bprint2(x,y,instring);
-end;
-   
