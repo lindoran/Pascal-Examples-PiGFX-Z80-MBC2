@@ -808,7 +808,7 @@ void loop()
       // Opcode 0x85  ERRDISK         1
       // Opcode 0x86  READSECT        512
       // Opcode 0x87  SDMOUNT         1
-      // Opcode 0x88  QDTIMER         11
+      // Opcode 0x88  QDTIMER ms      11
       // Opcode 0xFF  No operation    1
       //
       // See the following lines for the Opcodes details.
@@ -1547,6 +1547,7 @@ void loop()
                }
                else ioOpcode = 0xFF;              // All done. Set ioOpcode = "No operation"
             break;
+
         }
         if ((ioOpcode != 0x84) && (ioOpcode != 0x86) && (ioOpcode != 0x88)) ioOpcode = 0xFF;  // All done for the single byte opcodes. 
                                                                                              //  Set ioOpcode = "No operation"
