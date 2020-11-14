@@ -5,6 +5,8 @@ program pastris;
  youtube channel www.youtube.com/user/adric22.  please see pastris.txt
  for more comments they were getting large }
 
+(* this must be compiled as a Chain file, and the MBC2TRIS.PAS file *)
+(* compiled seperately *)
 {$V-}
 
 {$I gr4cus.inc}
@@ -34,7 +36,7 @@ var
  temp,failout,sndbit,joybit,startloop,db : boolean;
  T2,tstamp,jcount : real;
 
-procedure setdiftbl;
+overlay procedure setdiftbl;
 var
 difficulty,dd : integer;
 begin
@@ -45,10 +47,10 @@ begin
    difficulty := difficulty - difoffset;
   end;
 end;
- 
+
    { creates a input lookup so that taking input from the controler
       for movement is more fluid }
-procedure setinputtbl;
+overlay procedure setinputtbl;
 var
  qq : integer;
 begin
@@ -456,7 +458,7 @@ begin
      GRID[X][Y] := 0;
     end;
   end;
- 
+
  L := 0; {lines variable reset}
  S := 0; {score variable reset}
  GFXSetColorBG(1,1);
@@ -926,4 +928,4 @@ begin
      readkeyboard;
     until(temp = true);
   end;
-end.
+end.

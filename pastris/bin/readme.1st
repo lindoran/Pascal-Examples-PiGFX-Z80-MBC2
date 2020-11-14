@@ -1,0 +1,4 @@
+This is the binary for the MBC2 only version of pastris.  this requires 
+a Z80-MBC2 and a PiGFX interface terminal to work.  for sound you need a
+compatible buzzer module.  Compatible controller interface is requried for 
+joystick.
