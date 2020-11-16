@@ -6,6 +6,9 @@ up resistors on each pin corisponding to a switch on the classic 8 bit
 controler interface (atari).  this reads the whole port to see what value
 is returned.}
 
+{interface in the GitHub is meant to be connected to pins 3-7 on port A 
+ for it to work with the hard coded values elseware in the gethub }
+
 const
   {Z80-MBC2 IOS opcodes and port addresses}
   USERKEY_ReadOpcode = 129; {Opcode for 0x081, B-Port on the GPIO}
