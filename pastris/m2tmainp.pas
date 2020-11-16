@@ -5,8 +5,6 @@ program pastris;
  youtube channel www.youtube.com/user/adric22.  please see pastris.txt
  for more comments they were getting large }
 
-(* this must be compiled as a Chain file, and the MBC2TRIS.PAS file *)
-(* compiled seperately *)
 {$V-}
 
 {$I gr4cus.inc}
@@ -586,6 +584,7 @@ end;
 
 procedure gameoverman;
 begin
+ temp := true;
  E := 0;
  mprint(29,6,'GAME OVER');
  mprint(29,7,'---------');
@@ -598,7 +597,7 @@ begin
    IF E = 27 then E := 78;
    case E of
       89 : begin
-            temp := true; {new game Y is pressed}
+            {new game Y is pressed}
             checkscores;
             showscores;
             inkey := 0;
@@ -614,6 +613,7 @@ begin
             SetModeText;
             bios(0);
            end;
+      else E := 0;
    end;
   end;
 end;
@@ -668,6 +668,7 @@ end;
               {previe new piece}
 procedure preview;
 begin;
+if temp = true then exit;
 GFXSetColorFG(0,1);
 GFXDrawRectangle(182,36,27,41,1);
 PP := random(7)+1;
@@ -692,6 +693,7 @@ end;
               {get a new peice to the playfield}
 procedure newpiece;
 begin
+ if temp = true then exit;
  checkgrid;
  ROT := 1;
  PC := PP;
@@ -709,6 +711,7 @@ end;
             {pause or quit}
 procedure endsub;
 begin
+ if temp = true then exit;
  mprint(30,2,'QUITING?');
  mprint(30,3,'YOU SURE');
  mprint(30,4,'  Y/N');
@@ -738,6 +741,7 @@ end;
              {draws a piece at a position in the playfield}
 procedure drawpiece;
 begin
+if temp = true then exit;
 For P := 1 to 4 do
  begin
   X := PIECEX[P];
@@ -751,6 +755,7 @@ end;
          {erase a piece from the playfield}
 procedure erasepiece;
 begin
+if temp = true then exit;
 For P := 1 to 4 do
  begin
   X:=PIECEX[P];
@@ -762,6 +767,7 @@ end;
         {pice moves down}
 procedure movedown;
 begin
+ if temp = true then exit;
  erasepiece;
  For P := 1 to 4 do if PIECEY[P] = 19 then
    begin
@@ -863,6 +869,7 @@ procedure readkeyboard;
 var
  userin,jinp,dbdelay : integer;
 begin
+  if temp = true then exit;
   userin := inkey;
   if userin > 90 then userin := userin - 32;
   if joybit = true then
@@ -891,7 +898,7 @@ begin
         5 : endsub;
         6 : if sndbit = false then sndbit := true else sndbit := false;
    end;
-  if timer >= T2 then
+ if timer >= T2 then
    begin
     movedown;
     tstamp := QDtimer + L;
@@ -928,4 +935,4 @@ begin
      readkeyboard;
     until(temp = true);
   end;
-end.
+end.
