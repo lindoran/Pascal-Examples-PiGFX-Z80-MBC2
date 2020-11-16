@@ -6,8 +6,17 @@ up resistors on each pin corisponding to a switch on the classic 8 bit
 controler interface (atari).  this reads the whole port to see what value
 is returned.}
 
-{interface in the GitHub is meant to be connected to pins 3-7 on port A 
- for it to work with the hard coded values elseware in the gethub }
+{ JS board should be hooked to port a as so:
+ 
+        _     _ _ _ _ _    _
+        |     | | | | |    |
+       +5     3 4 5 6 7   Gnd    
+        * * * * * * * * * * GPA 
+        * * * * * * * * * * GPB 
+      VCC 1 2 3 4 5 6 7 8 GND   
+       Z80-MBC2 Expansion Port        
+
+For hard coded values to work with this program. }
 
 const
   {Z80-MBC2 IOS opcodes and port addresses}

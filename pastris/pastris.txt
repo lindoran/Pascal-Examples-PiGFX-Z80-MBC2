@@ -24,7 +24,9 @@
  see the new time.pas library for details. this version requires a Z80-MBC2 running
  that hacked sketch. it is used both for timeing piece drops, as well as debounceing 
  the joystick.  I've also added a seprate graphics loader which loads the bitmaps to 
- the graphics interface and then unloads itself from memory.
+ the graphics interface and then unloads itself from memory. the main program will also 
+ unload the routines that initally program the two pregenerated arrays from memory as 
+ well.
 
  the pieces were drawn useing linedraw primitives on the maximite version.  I
  wish I had re-coded the source to use the line commands built into pi-gfx but
