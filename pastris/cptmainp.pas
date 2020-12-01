@@ -1,16 +1,25 @@
-program pastris;
+program cptmainp;
 {this is a turbo pascal implimentation of David Murry's Basic Tetris
  you may know him as the 8-bit Guy of youtube fame. You can visit his
  web site for original source code at www.the8bitguy.com.or his exelent
  youtube channel www.youtube.com/user/adric22.  please see pastris.txt
- for more comments they were getting large }
+ for more comments they were getting large
+
+ this version SHOULD run on non MBC2 CP/M implimentations it has been
+ designed to work with keyboard only / no sound but still requires
+ PiGFX for Graphics.  If somebody wants to support a more standard
+ version of time.pas for something like the Z80CTC or some other tick
+ source; I do not have access to the hardware at present so can not.
+ as such i've implimented a psudo timer which uses looping to acomplish
+ this. This will also run on unmodified stock Z80MBC2, without the timer
+ hack}
 
 {$V-}
 
-{$I gr4cus.inc}
-{$I joystick.pas}
-{$I sound.pas}
-{$I time.pas}
+{$I gbcus.inc}
+{$I jsfake.inc}
+{$I sndfake.inc}
+{$I faketime.inc}
 
 const
 { db delay for advanced joystick interface }
@@ -20,8 +29,8 @@ const
  dbdelayfire = 150;
  dbdelaydirec = 60;
 
- difstart = 500; { starting difficulty}
- difoffset = 50; { this is the offset each difficulty level }
+ difstart = 300; { starting difficulty}
+ difoffset = 30; { this is the offset each difficulty level }
 
  (* i am 100% certain all of these do not need to be global but lazy *)
 type
@@ -482,6 +491,7 @@ begin
  RTCZeroCounter;
  While T2 = 0 do
   begin
+   TimeMoves;
    T1 := inkey;
    if T1 > 90 then T1 := T1 - 32; {checks for lowercase, if so it upcases}
    case T1 of
@@ -528,6 +538,7 @@ begin
      inkey := 0;
      repeat
       if RTCCounter = 10 then exit;
+      TimeMoves;
      until(inkey > 0);
      exit;
     end;
@@ -913,6 +924,7 @@ end;
 
          {main program loop}
 begin
+  ZeroAllTime;
   level[0] := 0; {this tells the menu to loop if no key is pressed}
   setdiftbl;
   setinputtbl;
@@ -939,6 +951,7 @@ begin
     jcount := QDtimer;
     repeat
      readkeyboard;
+     TimeMoves;
     until(temp = true);
   end;
-end.
+end.

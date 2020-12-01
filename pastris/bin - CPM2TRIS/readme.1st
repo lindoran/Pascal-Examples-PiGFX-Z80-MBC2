@@ -1,0 +1,6 @@
+for use on a standard CPM Machine or an unmodified Z80-MBC2 you will need the 
+CPM only virsion of the tetris program CPM2TRIS. wich uses BIOS Calls and 
+disables sound / joystick support; as well as includes a rudimentary timer
+that simulates a system tic in memory. It should work under most CPM versions 
+but requires at least 30k free memory (you will most likely need CPM 3.0 and 
+64k of RAM. minimum) 

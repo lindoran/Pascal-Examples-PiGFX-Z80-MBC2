@@ -21,8 +21,6 @@ ic = ^['[?25l'; {turn off the cursor}
 vc = ^['[?25h'; {turn on the cursor}
 bc = ^['[?25b'; {blink the cursor, flip back with vc}
 
-SerialTXPort = 1; {tx port address for opcode uner Z80MBC2}
-
 startoffset = 32;    {bitmap font of starts at}
 startnumoffset = 15; {reduced numbers only character set starts at}
              { these values are to a certain extent hard coded to
@@ -60,9 +58,7 @@ function inkey : integer;
 var
  iobyte : byte;
 begin
- {if bios(1) = 255 then inkey := bios(2) else inkey :=0;}
- ioByte := port[1];
- if ioByte = 255 then inkey := 0 else inkey := ioByte;
+ if bios(1) = 255 then inkey := bios(2) else inkey :=0;
 end;
 
 {A simple function to convert a 3 digit number to a string in line}
@@ -83,9 +79,7 @@ var
 begin
  for counter := 1 to length(LineToSend) do (* send each character 1 at a time *)
   begin
-   {bios(3,ord(LineToSend[counter])); sends character to CP/M BIOS Call CONOUT}
-   port[1] := SerialTXPort; (* opCode*)
-   port[0] := ord(LineToSend[counter]); (* send character *)
+   bios(3,ord(LineToSend[counter])); {sends character to CP/M BIOS Call CONOUT}
   end;
 end;
 
@@ -259,4 +253,4 @@ begin
  y := r*8;
  bprint2(x,y,instring);
 end;
-
+
