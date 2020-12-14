@@ -1,3 +1,11 @@
+this is a turbo pascal implimentation of David Murry's Basic Tetris
+you may know him as the 8-bit Guy of youtube fame. You can visit his
+web site for original source code at www.the8bitguy.com.or his exelent
+youtube channel www.youtube.com/user/adric22.  please see pastris.txt
+for more comments they were getting large (this file is very out of 
+date).
+
+MBC2TRIS:
 the MBC2 only version of pastris requires a Z80-MBC2, loaded with custom 
 firmware from this same repository and a PiGFX interface terminal to work.  
 for sound you need a compatible buzzer module. Compatible controller interface 
@@ -5,9 +13,30 @@ is requried for joystick. you can find information on hooking these up
 (and wireing the joystick interface) in the library folder. Have only tested
 this under at least 64k of RAM and CPM 3.0.
 
+I havn't tried it but you may be able to get it to work with faketime.inc
+but it will need furter codeing in the main program to make it work.
+
+UPDATE: the Z80-MBC2 Version is Very out of date at this point. It will most 
+likely still work but has bugs and the code waists alot of memory. I would
+recomend if you are just trying it out to use the CPM2TRIS version at this 
+point as it is fastest. I'll most likely migrate the changes from the CPM
+only version to the Z80MBC.
+
+CPM2TRIS:
 for use on a standard CPM Machine or an unmodified Z80-MBC2 you will need the 
 CPM only virsion of the tetris program CPM2TRIS, wich uses BIOS Calls and 
 disables sound / joystick support; as well as includes a rudimentary timer
 that simulates a system tic in memory. It should work under most CPM versions 
-but requires at least 30k free memory (you will most likely need CPM 3.0 and 
-64k of RAM. minimum) 
+It was compiled on a Z80-MBC2 with around 44K of TPA under CPM 2.2. the goal
+was to get it to run under all three CP/M versions that are avalible on the 
+platform. Pascal reports it is only around 13k total, but dosn't include 
+memory needed to load the bitmaps in and out of memory so I beleve it needs
+more like 20k.
+
+If somebody wants to support a more standard version of faketime.pas for 
+something like the Z80CTC or some other tick source that would be a big 
+help I do not have access to the hardware at present so can not.
+
+PiGFX Requirements: 
+The latest version of PiGFX is required (1.8.2) it can be obtained from
+github at https://github.com/fbergama/pigfx/tree/master/bin.

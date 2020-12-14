@@ -1,0 +1,13 @@
+These are pascal examples for the Z80-MBC2:
+
+balltest -- A simple program to demonstrate collisions
+gametest -- A demo program that tests sound / graphics / joystick
+inkeytes -- a simple inkey test program (works with Graph4)
+library -- all the include files that I wrote for the Z80-MBC2
+lines -- simple lines program
+mbrot -- a mandelbrot plot
+pastris -- a tetris clone based on basictris by David Murry 
+pirst -- a very simple program to reset the terminal back to defalut settings.
+S220718-R240620_IOS-Z80-MBC2 -- a hack of the Z80-MBC2 firmware that includes a
+                                timer OPCODE that forwards the arduino mills() 
+								function as a string.
