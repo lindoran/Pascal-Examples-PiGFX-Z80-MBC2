@@ -4,14 +4,8 @@ interface terminal to work.  for sound you need a compatible buzzer module.
 Compatible controller interface is requried for joystick. you can find information
 on hooking these up (and wireing the joystick interface) in the library folder.
 
-UPDATE: This is very out of date. I would recommend useing the regular CPM 
-version until this version is updated to work with the new code from the CPM 
-only version.
-
-
 for use on a standard CPM Machine or an unmodified Z80-MBC2 you will need the 
 CPM only virsion of the tetris program CPM2TRIS. wich uses BIOS Calls and 
 disables sound / joystick support; as well as includes a rudimentary timer
 that simulates a system tic in memory. It should work under most CPM versions 
-but requires at least 30k free memory (you will most likely need CPM 3.0 and 
-64k of RAM. minimum) 
+but requires at least 30k free memory 

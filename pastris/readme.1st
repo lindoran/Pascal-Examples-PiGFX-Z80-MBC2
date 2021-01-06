@@ -16,11 +16,11 @@ this under at least 64k of RAM and CPM 3.0.
 I havn't tried it but you may be able to get it to work with faketime.inc
 but it will need furter codeing in the main program to make it work.
 
-UPDATE: the Z80-MBC2 Version is Very out of date at this point. It will most 
-likely still work but has bugs and the code waists alot of memory. I would
-recomend if you are just trying it out to use the CPM2TRIS version at this 
-point as it is fastest. I'll most likely migrate the changes from the CPM
-only version to the Z80MBC.
+UPDATE: All The changes implimented in the CPM2TRIS version are back-ported
+to the Z80-MBC2 version.   This still requires the custom firmware 
+that i've written to pull a timer from the arduino.  I think there is 
+a real systick implimentation of the fermware that Fabio had done for 
+runing fusix 
 
 CPM2TRIS:
 for use on a standard CPM Machine or an unmodified Z80-MBC2 you will need the 
@@ -31,7 +31,8 @@ It was compiled on a Z80-MBC2 with around 44K of TPA under CPM 2.2. the goal
 was to get it to run under all three CP/M versions that are avalible on the 
 platform. Pascal reports it is only around 13k total, but dosn't include 
 memory needed to load the bitmaps in and out of memory so I beleve it needs
-more like 20k.
+more like 20k. ofcourse you will need a PiGFX terminal to make this all work
+link is below to the newest fermware.
 
 If somebody wants to support a more standard version of faketime.pas for 
 something like the Z80CTC or some other tick source that would be a big 

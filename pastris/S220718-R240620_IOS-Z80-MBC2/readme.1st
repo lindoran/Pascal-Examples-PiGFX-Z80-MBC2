@@ -1,0 +1,8 @@
+This is the custom firmware that simply brings the timer from the arduino forward thrugh a custom Op code.
+it's Very dirty. it uses a string broken up into ascii characters to make it simple for use in something
+like turbo pascal.  There's probably a much better way of doing this, but it works for my game so... 
+
+I know there is a 'real systick' firmware out there for fusix. at some point i'd really like to look into
+moding my source to make it work. for now this works.
+
+If you'd like look at the comments in the sketch to see how it works.

@@ -9,7 +9,8 @@
 Const
  RTCOpcode = 132;
  minseconds = 60;
- QDTimerOpcode = 136; { this is the new op code at 0x88 for on system ms timer}
+ QDTimerOpcode = 136;
+
 
 Type
  Timestamp = array[0..6] of byte;{seconds,minutes,hours,day,month,year,temp}
@@ -19,8 +20,9 @@ var
  CounterStart : Timestamp;
  CurrentTime : Timestamp;
  QDCurrent : QDString;
+ usQDCurrent : QDString;
 
-{get ms from a modded version of the Z80MBC2}
+{get ms}
 function qdtimer : real;
 var
  a,b:integer;
@@ -74,4 +76,4 @@ begin
  {calculate elapsed seconds}
  seconds := (timer[1] * minseconds) + timer[0];
  RTCCounter := seconds - startsec;
-end;
+end;
