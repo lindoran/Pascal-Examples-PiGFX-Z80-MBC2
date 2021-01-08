@@ -88,7 +88,7 @@ end;
 { drop a letter input widget any place on the screen }
 overlay function rollletters(x,y :integer) : inittype;
 var
- letter, rcount, userin, qq :integer;
+ letter, rcount, userin : integer;
  nextl : boolean;
  outstr : inittype;
  extinp : string[4];
@@ -103,13 +103,7 @@ begin
    bprint(x+rcount*8,y,'A');
    while nextl = false do
     begin
-     extinp := '';
-     userin := inkey;
-     if userin = 27 then
-      begin
-       for qq := 1 to 4 do extinp := extinp + chr(inkey);
-       for qq := 1 to 16 do if pos(extMap[qq],extinp) = 1 then userin := qq;
-      end;
+     userin := extinkey;
      if userin > 90 then userin := userin - 32;
      case inputtbl[userin] of
           1 : begin
@@ -250,6 +244,7 @@ begin
    if T1 = 27 then
      begin
       SetModeText;
+      writeln(memavail);
       bios(0);
      end;
    if T1 = 0 then lev := 0 else val(chr(T1),lev,err);
@@ -329,7 +324,6 @@ begin
             {new game Y is pressed}
             checkscores;
             showscores;
-            inkey := 0;
             repeat until(inkey > 0);
            end;
       78 : begin
@@ -337,7 +331,6 @@ begin
             delay(500);
             checkscores;
             showscores;
-            inkey := 0;
             repeat until(inkey > 0);
             SetModeText;
             bios(0);
@@ -573,18 +566,11 @@ end;
              {read input from user}
 procedure readkeyboard;
 var
- userin,qq : integer;
+ userin : integer;
  extInp : string[4];
 begin
-  Inkey := 0;
-  extInp := '';
   if temp = true then exit;
-  userin := Inkey;
-  if userin = 27 then
-   begin
-    for qq := 1 to 4 do extInp := extInp + chr(inkey);
-    for qq := 1 to 16 do if pos(extMap[qq],extInp) = 1 then userin := qq;
-   end;
+  userin := extInkey;
   if userin > 90 then userin := userin - 32;
   case inputtbl[userin] of
         1 : moveleft;
@@ -637,4 +623,4 @@ begin
      TimeMoves;
     until(temp = true);
   end;
-end.                                                  
+end.                                                  

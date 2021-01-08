@@ -19,7 +19,7 @@ type
   wkstring = string[2];
   outstring = string[8];
   rgbstring = string[6];
-  
+
 Const
 esc = ^['['; {we use this string a lot so it is expressed as constant}
 hc = ^['[H'; {Sends the cursor home}
@@ -185,13 +185,13 @@ begin
         begin
          bit := copy(outstr,Z,1);
          if altfont = false then (* build sprite def *)
-		  if bit = '0' then statement := statement + '9;' else statement := statement + '8;'
-		 else 
-		  if bit = '0' then statement := statement + 'B;' else statement := statement + 'A;';
+         if bit = '0' then statement := statement + '9;' else statement := statement + '8;'
+        else
+         if bit = '0' then statement := statement + 'B;' else statement := statement + 'A;';
         end;
         X := X + 2;
       end; {end of the character}
-	  piout(statement); {send the character to the terminal}
+      piout(statement); {send the character to the terminal}
       X := 1; {reset hex byte location for next character}
       Y := Y+1; {incriment character number}
    end; {thats the end of the file!}
@@ -260,4 +260,4 @@ begin
  x := c*8;
  y := r*8;
  bprint2(x,y,instring);
-end;                                                                        
+end;                                                                        
