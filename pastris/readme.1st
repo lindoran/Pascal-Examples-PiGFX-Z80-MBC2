@@ -18,9 +18,7 @@ but it will need furter codeing in the main program to make it work.
 
 UPDATE: All The changes implimented in the CPM2TRIS version are back-ported
 to the Z80-MBC2 version.   This still requires the custom firmware 
-that i've written to pull a timer from the arduino.  I think there is 
-a real systick implimentation of the fermware that Fabio had done for 
-runing fusix 
+that i've written to pull a timer from the arduino.  
 
 CPM2TRIS:
 for use on a standard CPM Machine or an unmodified Z80-MBC2 you will need the 
