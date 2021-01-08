@@ -1,10 +1,9 @@
 for use on a standard CPM Machine or an unmodified Z80-MBC2 you will need the 
 CPM only virsion of the tetris program CPM2TRIS, wich uses BIOS Calls and 
 disables sound / joystick support; as well as includes a rudimentary timer
-that simulates a system tic in memory. It should work under most CPM versions 
-It was compiled on a Z80-MBC2 with around 44K of TPA under CPM 2.2. the goal
-was to get it to run under all three CP/M versions that are avalible on the 
-platform.
+that simulates a system tic in memory. Recompiled for systems where BDOS 
+starts at 7000H (stock 48K systems).  This means both the MBC2 and Stock 
+CPM2TRIS will run on systems with 28K TPA!  
 
 PiGFX Requirements: 
 The latest version of PiGFX is required (1.8.2) it can be obtained from
