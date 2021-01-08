@@ -27,10 +27,11 @@ disables sound / joystick support; as well as includes a rudimentary timer
 that simulates a system tic in memory. It should work under most CPM versions 
 It was compiled on a Z80-MBC2 with around 44K of TPA under CPM 2.2. the goal
 was to get it to run under all three CP/M versions that are avalible on the 
-platform. Pascal reports it is only around 13k total, but dosn't include 
-memory needed to load the bitmaps in and out of memory so I beleve it needs
-more like 20k. ofcourse you will need a PiGFX terminal to make this all work
-link is below to the newest fermware.
+platform.  I've Recompiled both binary versions for systems where BDOS starts 
+at 7000H (stock 48K systems). This means both the MBC2 and Stock CPM2TRIS will 
+run on systems with 28K TPA! The pascal library is just over 8k  with the code 
+for Pastris takeing around 13K a major rewrite would be required to get the 
+sizes down further.  
 
 If somebody wants to support a more standard version of faketime.pas for 
 something like the Z80CTC or some other tick source that would be a big 
