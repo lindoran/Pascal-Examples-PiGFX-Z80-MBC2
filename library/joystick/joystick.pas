@@ -20,14 +20,13 @@ For hard coded values to work with this program. }
 
 const
   {Z80-MBC2 IOS opcodes and port addresses}
-  USERKEY_ReadOpcode = 129; {Opcode for 0x081, B-Port on the GPIO}
+  USERKEY_ReadOpcode = 129; {Opcode for 0x081, PortA on the GPIO}
   STORE_Opcode_Port = 1;
   EXECUTE_ReadOpcode_Port =0;
 
 
 function GetJoy: byte; {return the value of joystick port}
 begin
- port[STORE_Opcode_Port]:= USERKEY_READOpcode; {select B port OPCODE}
+ port[STORE_Opcode_Port]:= USERKEY_READOpcode; {Select A port OPCODE}
  GetJoy := port[EXECUTE_ReadOpcode_Port]; {read entire port, output to func.}
 end;
-
